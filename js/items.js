@@ -184,6 +184,7 @@ export let items = [
         },
         onEnd: function () {
           player.moveDelay = baseSpeed - 50;
+          player.actionConstant = 0.5;
           player.knowledge += 5;
           player.coffeesDrank = (player.coffeesDrank || 0) + 1;
         },
@@ -377,7 +378,7 @@ export let items = [
           if (keyCode === SHIFT) {
             setActiveItemEvent(null);
           }
-          const MIN_PAGE_DELAY = 5000;
+          const MIN_PAGE_DELAY = 4000 * player.actionConstant;
           const now = millis();
           if (typeof this.lastFlipTime === "undefined")
             this.lastFlipTime = -99999;

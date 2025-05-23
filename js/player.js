@@ -2,6 +2,7 @@ export let player = {
   x: 400,
   y: 400,
   moveDelay: 150, //prev. velocity
+  actionConstant: 1,
   lastMoveTime: 0,
   stepSize: 30,
   size: 60,

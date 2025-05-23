@@ -49,7 +49,7 @@ import { activeItemEvent, setActiveItemEvent } from "./events.js";
 
 // Game mode/state flags
 let gameMode = 0;
-let showIntroScroll = false;
+let showIntroScroll = true;
 let endgameFont = null;
 
 //endgame
@@ -75,30 +75,28 @@ let canPickUp = false;
 // p5 preload: load assets
 function preload() {
   // Player sprites
-  player.sprites.down = loadImage("/assets/sprites/stationary.png");
-  player.sprites.up = loadImage("/assets/sprites/facing_backward.png");
-  player.sprites.left = loadImage("/assets/sprites/walking_left.png");
-  player.sprites.right = loadImage("/assets/sprites/walking_right.png");
-  player.sprites.walk_left = loadImage("/assets/sprites/walking_left.png");
-  player.sprites.walk_right = loadImage("/assets/sprites/walking_right.png");
-  player.sprites.walk_up = loadImage("/assets/sprites/facing_backward.png");
-  player.sprites.walk_down = loadImage("/assets/sprites/walking_forward.png");
+  player.sprites.down = loadImage("assets/sprites/stationary.png");
+  player.sprites.up = loadImage("assets/sprites/facing_backward.png");
+  player.sprites.left = loadImage("assets/sprites/walking_left.png");
+  player.sprites.right = loadImage("assets/sprites/walking_right.png");
+  player.sprites.walk_left = loadImage("assets/sprites/walking_left.png");
+  player.sprites.walk_right = loadImage("assets/sprites/walking_right.png");
+  player.sprites.walk_up = loadImage("assets/sprites/facing_backward.png");
+  player.sprites.walk_down = loadImage("assets/sprites/walking_forward.png");
 
   // Backgrounds and intro scroll
   guiAssets.admissionScroll = loadImage(
-    "/assets/backgrounds/background_start.png"
+    "assets/backgrounds/background_start.png"
   );
-  scenes[0].background = loadImage("/assets/backgrounds/background_reg.png");
-  scenes[1].background = loadImage(
-    "/assets/backgrounds/background_outside.png"
-  );
+  scenes[0].background = loadImage("assets/backgrounds/background_reg.png");
+  scenes[1].background = loadImage("assets/backgrounds/background_outside.png");
   scenes[2].background = loadImage(
-    "/assets/backgrounds/background_studyroom.png"
+    "assets/backgrounds/background_studyroom.png"
   );
-  scenes[3].background = loadImage("/assets/backgrounds/background_stacks.png");
+  scenes[3].background = loadImage("assets/backgrounds/background_stacks.png");
   // Foreground object sprite
   guiAssets.bookshelfImg = loadImage(
-    "/assets/backgrounds/background_item_bookshelf.png"
+    "assets/backgrounds/background_item_bookshelf.png"
   );
   if (stacksForegroundObjects) {
     stacksForegroundObjects.forEach(
@@ -106,29 +104,29 @@ function preload() {
     );
   }
   // GUI images
-  guiAssets.statCounterImg = loadImage("/assets/gui/stat_counter.png");
-  guiAssets.phoneGuiImg = loadImage("/assets/gui/phone_gui.png");
+  guiAssets.statCounterImg = loadImage("assets/gui/stat_counter.png");
+  guiAssets.phoneGuiImg = loadImage("assets/gui/phone_gui.png");
 
-  guiAssets.bookGuiImg = loadImage("/assets/gui/book_gui.png");
-  bookFlipFrames[0] = loadImage("/assets/gui/book_gui.png");
-  bookFlipFrames[1] = loadImage("/assets/gui/book_flipping.png");
+  guiAssets.bookGuiImg = loadImage("assets/gui/book_gui.png");
+  bookFlipFrames[0] = loadImage("assets/gui/book_gui.png");
+  bookFlipFrames[1] = loadImage("assets/gui/book_flipping.png");
 
   // Item sprites
-  itemSprites.marlboro_red = loadImage("/assets/items/marlboro_red.png");
-  itemSprites.coffee = loadImage("/assets/items/coffee.png");
-  itemSprites.phone = loadImage("/assets/items/phone.png");
-  itemSprites.book = loadImage("/assets/items/book.png");
-  itemSprites.pickaxe = loadImage("/assets/items/pickaxe.png");
-  itemSprites.fishing_rod = loadImage("/assets/items/fishing_rod.png");
+  itemSprites.marlboro_red = loadImage("assets/items/marlboro_red.png");
+  itemSprites.coffee = loadImage("assets/items/coffee.png");
+  itemSprites.phone = loadImage("assets/items/phone.png");
+  itemSprites.book = loadImage("assets/items/book.png");
+  itemSprites.pickaxe = loadImage("assets/items/pickaxe.png");
+  itemSprites.fishing_rod = loadImage("assets/items/fishing_rod.png");
 
-  itemSprites.fishing_spot = loadImage("/assets/items/fishing_pond.png");
+  itemSprites.fishing_spot = loadImage("assets/items/fishing_pond.png");
 
-  fishingFrames[0] = loadImage("/assets/items/fishing_scene_1.png");
-  fishingFrames[1] = loadImage("/assets/items/fishing_scene_2.png");
-  fishingFrames[2] = loadImage("/assets/items/fishing_scene_1.png");
-  fishingFrames[3] = loadImage("/assets/items/fishing_scene_2.png");
-  fishingFrames[4] = loadImage("/assets/items/fishing_scene_1.png");
-  fishingFrames[5] = loadImage("/assets/items/fishing_scene_3.png");
+  fishingFrames[0] = loadImage("assets/items/fishing_scene_1.png");
+  fishingFrames[1] = loadImage("assets/items/fishing_scene_2.png");
+  fishingFrames[2] = loadImage("assets/items/fishing_scene_1.png");
+  fishingFrames[3] = loadImage("assets/items/fishing_scene_2.png");
+  fishingFrames[4] = loadImage("assets/items/fishing_scene_1.png");
+  fishingFrames[5] = loadImage("assets/items/fishing_scene_3.png");
 
   items.forEach((item) => {
     if (item.name === "marlboro_red") item.sprite = itemSprites.marlboro_red;
@@ -140,14 +138,14 @@ function preload() {
     if (item.name === "fishing_spot") item.sprite = itemSprites.fishing_spot;
   });
   // Event animation frames
-  smokingFrames[0] = loadImage("/assets/sprites/smoking_scene_1.png");
-  smokingFrames[1] = loadImage("/assets/sprites/smoking_scene_2.png");
-  drinkingFrames[0] = loadImage("/assets/sprites/drinking_scene_1.png");
-  drinkingFrames[1] = loadImage("/assets/sprites/drinking_scene_2.png");
+  smokingFrames[0] = loadImage("assets/sprites/smoking_scene_1.png");
+  smokingFrames[1] = loadImage("assets/sprites/smoking_scene_2.png");
+  drinkingFrames[0] = loadImage("assets/sprites/drinking_scene_1.png");
+  drinkingFrames[1] = loadImage("assets/sprites/drinking_scene_2.png");
   // Phone meme images
-  phoneMemes.push(loadImage("/assets/memes/meme1.png"));
-  phoneMemes.push(loadImage("/assets/memes/meme2.png"));
-  phoneMemes.push(loadImage("/assets/memes/meme3.png"));
+  phoneMemes.push(loadImage("assets/memes/meme1.png"));
+  phoneMemes.push(loadImage("assets/memes/meme2.png"));
+  phoneMemes.push(loadImage("assets/memes/meme3.png"));
   // Music tracks
   for (let file of musicInterval ? [] : []) {
   } // (musicInterval imported to ensure it's loaded)
@@ -160,18 +158,18 @@ function preload() {
   let smokingGroup = backgroundObjects.find((o) => o.name === "smoking_group");
   if (smokingGroup) {
     smokingGroup.frames = [
-      loadImage("/assets/backgrounds/background_group_1.png"),
-      loadImage("/assets/backgrounds/background_group_2.png"),
+      loadImage("assets/backgrounds/background_group_1.png"),
+      loadImage("assets/backgrounds/background_group_2.png"),
     ];
   }
 
   //endgame
-  endgameStatsFrameImgs[0] = loadImage("/assets/endgame/endgame_1.png");
-  endgameStatsFrameImgs[1] = loadImage("/assets/endgame/endgame_2.png");
-  endgameStatsFrameImgs[2] = loadImage("/assets/endgame/endgame_final.png");
+  endgameStatsFrameImgs[0] = loadImage("assets/endgame/endgame_1.png");
+  endgameStatsFrameImgs[1] = loadImage("assets/endgame/endgame_2.png");
+  endgameStatsFrameImgs[2] = loadImage("assets/endgame/endgame_final.png");
 
   //fonts
-  endgameFont = loadFont("/assets/fonts/sketch_gothic_school.ttf");
+  endgameFont = loadFont("assets/fonts/sketch_gothic_school.ttf");
 }
 
 function setup() {

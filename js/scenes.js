@@ -192,9 +192,9 @@ export function drawStackSceneWithLayers(drawPlayerFn) {
   drawPlayerFn();
 
   // Debug: Draw player footline
-  stroke(0, 255, 0);
-  line(player.x, playerFootY, player.x + player.size, playerFootY);
-  noStroke();
+  // stroke(0, 255, 0);
+  // line(player.x, playerFootY, player.x + player.size, playerFootY);
+  // noStroke();
 
   // 3. Draw shelves in front (cover player)
   for (let obj of fgObjs) {
@@ -202,8 +202,8 @@ export function drawStackSceneWithLayers(drawPlayerFn) {
       image(obj.sprite, obj.x, obj.y, obj.w, obj.h);
 
       // Debug: show overlay
-      fill(255, 0, 0, 120);
-      rect(obj.x, obj.y, obj.w, obj.h);
+      // fill(255, 0, 0, 120);
+      // rect(obj.x, obj.y, obj.w, obj.h);
     }
   }
 }

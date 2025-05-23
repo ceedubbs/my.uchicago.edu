@@ -21,6 +21,59 @@ export let bookFlipFrames = [];
 
 export let fishingFrames = [];
 
+let bookPagesText = [
+  "Sea cucumbers defend by expelling their internal organs",
+  "Eyes mirror forgotten twilight fires\n\nMemory cradles unspoken goodbyes",
+  "The value of labour-power resolves itself into the value of a definite quantity of the means of subsistence\n\nnecessary for its production",
+  "In socialised production the money-capital is eliminated",
+  "The capitalist buys labour-power in order to use it;\n\nlabour-power in use is labour itself",
+  "Ink bleeds across empty pages\n\nSouls dance on whispered lines",
+  "The Eiffel Tower can grow six inches in summer",
+  "Mountains echo silent human dreams\n\nWinds carry unseen lullabies\n\nEarth whispers timeless ancient truths",
+  "Cats have extra toes through a condition called polydactyly",
+  "M—C—M′ is therefore in reality the general formula of capital\n\nas it appears prima facie within the sphere of circulation",
+  "The worker becomes poorer the more wealth he produces",
+  "Hands reach toward unseen horizons\n\nFear dissolves into trembling light\n\nHope stirs silent waking worlds",
+  "Desert blooms after unseen rains\n\nBones remember ancient hidden rhythms",
+  "Humans share fifty percent of DNA with bananas",
+  "Use-value realizes itself only in use or in consumption",
+  "Lightning strikes produce ozone, freshening our air",
+  "A snail can sleep for three years solid",
+  "Total labour-power of society counts as one homogeneous mass of human labour power",
+  "Sharks existed before trees appeared on Earth",
+  "Butterflies taste with their feet, sensing nectar sweetness",
+  "Sunlight reaching Earth takes eight minutes\n\nIts journey started eight minutes ago",
+  "Surplus-value and the value of labour-power vary in opposite directions",
+  "Bananas are berries but strawberries are not",
+  "Rainbows are full circles; we see arcs on Earth",
+  "the more the worker produces, the less he has to consume",
+  "The purchaser of labour-power consumes it by setting the seller of it to work",
+  "The simple value-form of the commodity is the simple appearance of use-value and exchange-value",
+  "The expansion of value is the subjective aim of the capitalist",
+  "The means of production and labour-power are distinguished by their different roles in creating value",
+  "Capital is dead labour, that, vampire-like,\n\nonly lives by sucking living labour",
+  "The wealth of societies where capitalist production prevails\n\nappears as an immense collection of commodities",
+  "The value created by a working day of 12 hours is a constant quantity,\n\nsay, six shillings",
+  "Octopuses have three hearts and blue blood",
+  "Jellyfish existed before dinosaurs walked the Earth",
+  "Venus spins backwards; on Venus, the sun rises west",
+  "Dawn awakens dormant restless sighs\n\nLight baptizes wounded silent souls\n\nDaybreak shatters nocturnal doubts",
+  "Honey never spoils and can last thousands of years",
+  "A day on Venus lasts longer than its year",
+  "Hot water can freeze faster than cold water\n\nThis is called the Mpemba effect",
+  "Gravity binds our fractured hearts\n\nPain pulses with overlooked purpose\n\nLove labors within broken scars",
+  "The time during which the labourer works\n\nis the time during which the capitalist consumes labour-power",
+  "The heart of a blue whale weighs more than a car",
+  "Moon cradles restless woven dreams\n\nNight unfurls secrets in silence\n\nStars tremble with ancient longing",
+  "River sings beneath shattered reflections\n\nTime erodes even stoneless memories",
+  "A working day of given length always creates the same amount of value",
+  "A commodity appears, at first sight, a very trivial thing,\n\neasily understood",
+  "There are more trees on Earth than stars in Milky Way",
+  "The variable capital is advanced in money,\n\npaid out as wages",
+  "Wombat poop is cube-shaped to prevent rolling away",
+  "Mirrors fracture endless inner landscapes\n\nTruth emerges beyond veiled illusions",
+];
+
 export const guiAssets = {
   statCounterImg: null,
   phoneGuiImg: null,
@@ -186,7 +239,7 @@ export let items = [
           } else if (keyCode === DOWN_ARROW) {
             this.memeIndex = min(phoneMemes.length - 1, this.memeIndex + 1);
             if (this.memeSeen < phoneMemes.length) {
-              player.knowledge++;
+              player.knowledge += 3;
               this.memeSeen++;
               player.memesWatched = (player.memesWatched || 0) + 1;
             }
@@ -231,7 +284,7 @@ export let items = [
   // --------- BOOK ITEM ----------
   {
     name: "book",
-    x: 270,
+    x: 265,
     y: 310,
     size: 50,
     scene: 2, // studyroom
@@ -247,10 +300,10 @@ export let items = [
         flipping: false, // are we in the brief flip animation?
         flipStart: 0, // when it began
         flipDuration: 500, // 200 ms for flip
+        lastFlipTime: -99999, // last time we flipped
         draw: function () {
-          // fixed frame position/size:
-          const bookX = 50,
-            bookY = 10,
+          const bookX = 100,
+            bookY = 110,
             bookW = 600,
             bookH = 400;
           // If flipping, draw the flip animation frame:
@@ -271,9 +324,25 @@ export let items = [
           }
           // Otherwise, draw static book GUI:
           image(guiAssets.bookGuiImg, bookX, bookY, bookW, bookH);
-          // (Optionally draw page image if you have bookPages)
-          // const page = bookPages[this.pageIndex];
-          // if (page) image(page, bookX+20, bookY+20, bookW-40, bookH-40);
+
+          // Draw the page text inside the box, formatted as paragraphs
+          textSize(15);
+          textAlign(LEFT, TOP);
+
+          // bookPagesText[pageIndex] is a string
+          const marginX = 30;
+          const marginY = 50;
+          const textBoxWidth = bookW / 2 - marginX * 2 - 60;
+          const textBoxHeight = bookH - marginY * 2;
+
+          let textString = bookPagesText[this.pageIndex] || "";
+          text(
+            textString,
+            bookX + marginX + 90,
+            bookY + marginY + 50,
+            textBoxWidth,
+            textBoxHeight
+          );
 
           // Instructions text:
           fill(255);
@@ -284,20 +353,54 @@ export let items = [
             bookX + bookW / 2,
             bookY + bookH - 10
           );
+          if (this.showDelayMessage) {
+            fill(255, 0, 0);
+            textSize(20);
+            textAlign(CENTER, CENTER);
+            text(
+              "Please wait 5s before flipping pages",
+              bookX + bookW / 2,
+              bookY + bookH / 2
+            );
+          }
         },
         onKey: function (_key, keyCode) {
-          if (keyCode === RIGHT_ARROW && !this.flipping) {
-            // start flip animation and then advance pageIndex
-            this.flipping = true;
-            this.flipStart = millis();
-            this.pageIndex = min(bookPages.length - 1, this.pageIndex + 1);
-            player.pagesRead = (player.pagesRead || 0) + 1;
-          } else if (keyCode === LEFT_ARROW && !this.flipping) {
-            this.flipping = true;
-            this.flipStart = millis();
-            this.pageIndex = max(0, this.pageIndex - 1);
-          } else if (keyCode === SHIFT) {
+          console.log(
+            "BOOK key event:",
+            _key,
+            keyCode,
+            "pageIndex:",
+            this.pageIndex,
+            "flipping:",
+            this.flipping
+          );
+          if (keyCode === SHIFT) {
             setActiveItemEvent(null);
+          }
+          const MIN_PAGE_DELAY = 5000;
+          const now = millis();
+          if (typeof this.lastFlipTime === "undefined")
+            this.lastFlipTime = -99999;
+          if (this.flipping) return;
+          if (now - this.lastFlipTime < MIN_PAGE_DELAY) {
+            this.showDelayMessage = true;
+            this.delayMessageStart = now;
+            return;
+          }
+          if (keyCode === 39 && this.pageIndex < bookPagesText.length - 1) {
+            this.flipping = true;
+            this.flipStart = now;
+            this.pageIndex++;
+            player.pagesRead = (player.pagesRead || 0) + 1;
+            this.lastFlipTime = now;
+            this.showDelayMessage = false;
+            player.knowledge += 5;
+          } else if (keyCode === 37 && this.pageIndex > 0) {
+            this.flipping = true;
+            this.flipStart = now;
+            this.pageIndex--;
+            this.lastFlipTime = now;
+            this.showDelayMessage = false;
           }
         },
       });

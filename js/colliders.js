@@ -11,7 +11,7 @@ export let startSceneColliders = [
   [690, 170, 120, 80],
 
   // Left middle entrance
-  [0, 250, 130, 80],
+  [0, 230, 130, 80],
   // Tables (center)
   [180, 160, 140, 40], // top left table
   [500, 170, 120, 40], // top right table

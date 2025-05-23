@@ -16,7 +16,7 @@ export let player = {
   cigarettesSmoked: 0,
   pagesRead: 0,
   psetsDone: 0,
-  fishingRod: true,
+  fishingRod: false,
   pickaxe: false,
 };
 

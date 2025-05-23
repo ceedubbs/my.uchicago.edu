@@ -146,6 +146,19 @@ function preload() {
   phoneMemes.push(loadImage("assets/memes/meme1.png"));
   phoneMemes.push(loadImage("assets/memes/meme2.png"));
   phoneMemes.push(loadImage("assets/memes/meme3.png"));
+  phoneMemes.push(loadImage("assets/memes/meme6.png"));
+  phoneMemes.push(loadImage("assets/memes/meme7.png"));
+  phoneMemes.push(loadImage("assets/memes/meme8.png"));
+  phoneMemes.push(loadImage("assets/memes/meme9.png"));
+  phoneMemes.push(loadImage("assets/memes/meme10.png"));
+  phoneMemes.push(loadImage("assets/memes/meme11.png"));
+  phoneMemes.push(loadImage("assets/memes/meme12.png"));
+  phoneMemes.push(loadImage("assets/memes/meme13.png"));
+  phoneMemes.push(loadImage("assets/memes/meme14.png"));
+  phoneMemes.push(loadImage("assets/memes/meme15.png"));
+  phoneMemes.push(loadImage("assets/memes/meme16.png"));
+  phoneMemes.push(loadImage("assets/memes/meme17.png"));
+
   // Music tracks
   // for (let file of musicInterval ? [] : []) {
   // } // (musicInterval imported to ensure it's loaded)
@@ -217,7 +230,7 @@ function draw() {
         `Coffees drank: ${player.coffeesDrank || 0}`,
         `Cigarettes smoked: ${player.cigarettesSmoked || 0}`,
         `Pages read: ${player.pagesRead || 0}`,
-        `Psets done: ${player.psetsDone || 0} (placeholder)`,
+        `Psets done: ${player.psetsDone || 0} 0`,
       ];
       for (let i = 0; i < stats.length; i++) {
         text(stats[i], width / 2, 290 + i * 30);
@@ -262,9 +275,9 @@ function draw() {
   // --- Render overlays (GUIs, events, etc) ---
   if (activeItemEvent) {
     // 1. Always draw the scene layer for stacks first
-    if (isInStacks) {
-      drawStackSceneWithLayers(drawPlayer);
-    }
+    // if (isInStacks) {
+    //   drawStackSceneWithLayers(drawPlayer);
+    // }
     // 2. Now draw the active item overlay GUI
     if (typeof activeItemEvent.draw === "function") {
       activeItemEvent.draw();
@@ -285,12 +298,8 @@ function draw() {
   }
 
   // --- Normal game draw path ---
-  if (isInStacks) {
-    drawStackSceneWithLayers(drawPlayer);
-  } else {
-    drawPlayer();
-    drawSceneItems();
-  }
+  drawPlayer();
+  drawSceneItems();
   drawStatsGUI();
 
   // Can pick up any nearby item?
@@ -317,20 +326,20 @@ function draw() {
   // }
 
   // 7) Stacks layering
-  if (
-    scenes[currentScene].name === "stacks" &&
-    scenes[currentScene].foregroundObjects
-  ) {
-    drawStackSceneWithLayers(drawPlayer);
-  }
+  // if (
+  //   scenes[currentScene].name === "stacks" &&
+  //   scenes[currentScene].foregroundObjects
+  // ) {
+  //   drawStackSceneWithLayers(drawPlayer);
+  // }
 
   // 8) Frame rate & boundaries
   frameRate(60);
   scenes[currentScene].borderFunc();
 
   // // 9) HUD & debug texts
-  fill(0);
-  text(`player location: ${player.x}, ${player.y}`, 10, 20);
+  // fill(0);
+  // text(`player location: ${player.x}, ${player.y}`, 10, 20);
   drawStatsGUI();
 
   // 10) Auto‐transitions & hint
@@ -394,13 +403,6 @@ function keyReleased() {
   ) {
     moveKeyActive = false;
     heldDirection = null;
-  }
-  // Pass other keys to GUI
-  if (activeItemEvent && activeItemEvent.blocksMovement) {
-    if (typeof activeItemEvent.onKey === "function") {
-      activeItemEvent.onKey(key, keyCode);
-    }
-    return false;
   }
 }
 

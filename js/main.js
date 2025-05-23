@@ -147,11 +147,11 @@ function preload() {
   phoneMemes.push(loadImage("assets/memes/meme2.png"));
   phoneMemes.push(loadImage("assets/memes/meme3.png"));
   // Music tracks
-  for (let file of musicInterval ? [] : []) {
-  } // (musicInterval imported to ensure it's loaded)
-  for (let f of trackFiles) {
-    musicTracks.push(loadSound(f));
-  }
+  // for (let file of musicInterval ? [] : []) {
+  // } // (musicInterval imported to ensure it's loaded)
+  // for (let f of trackFiles) {
+  //   musicTracks.push(loadSound(f));
+  // }
 
   //background objects
   // For the smoking group:
@@ -340,18 +340,18 @@ function draw() {
   // }
 
   // 12) Music logic
-  if (!showIntroScroll && musicTracks.length) {
-    const track = musicTracks[currentTrackIndex];
-    if (track && !track.isPlaying() && !waitingForNextTrack) {
-      musicTimer = millis();
-      waitingForNextTrack = true;
-    }
-    if (waitingForNextTrack && millis() - musicTimer > musicInterval) {
-      const next = pickNextTrack();
-      playMusicTrack(next);
-      waitingForNextTrack = false;
-    }
-  }
+  // if (!showIntroScroll && musicTracks.length) {
+  //   const track = musicTracks[currentTrackIndex];
+  //   if (track && !track.isPlaying() && !waitingForNextTrack) {
+  //     musicTimer = millis();
+  //     waitingForNextTrack = true;
+  //   }
+  //   if (waitingForNextTrack && millis() - musicTimer > musicInterval) {
+  //     const next = pickNextTrack();
+  //     playMusicTrack(next);
+  //     waitingForNextTrack = false;
+  //   }
+  // }
 }
 
 // Called when a key is pressed (sets movement state)
@@ -437,7 +437,7 @@ function mouseClicked() {
   if (showIntroScroll) {
     // Hide intro scroll and start game
     showIntroScroll = false;
-    playMusicTrack(0);
+    //playMusicTrack(0);
     // currentTrackIndex is set by playMusicTrack; reset music timer and waiting flag
     musicTimer = millis();
     waitingForNextTrack = false;

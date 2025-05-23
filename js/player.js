@@ -1,5 +1,5 @@
 export let player = {
-  x: 100,
+  x: 400,
   y: 400,
   moveDelay: 150, //prev. velocity
   lastMoveTime: 0,

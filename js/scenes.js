@@ -33,7 +33,7 @@ export let scenes = [
       }
       if (comeFrom === 2) {
         player.x = 50;
-        player.y = 480;
+        player.y = 330;
       } else {
         player.x = 330;
         player.y = 450;
@@ -66,7 +66,7 @@ export let scenes = [
     onEnter: function () {
       if (comeFrom === 3) {
         player.x = 700;
-        player.y = 460;
+        player.y = 500;
       } else {
         player.x = 50;
         player.y = 480;

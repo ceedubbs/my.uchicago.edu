@@ -1,15 +1,23 @@
 export let player = {
-  x: 300,
-  y: 200,
-  velocity: 100,
+  x: 100,
+  y: 400,
+  moveDelay: 150, //prev. velocity
+  lastMoveTime: 0,
+  stepSize: 30,
   size: 60,
-  direction: "down",
+  direction: null,
   moving: false,
   step: 0,
-  lastMoveTime: 0,
   coins: 0,
   knowledge: 0,
   sprites: {},
+  memesWatched: 0,
+  coffeesDrank: 0,
+  cigarettesSmoked: 0,
+  pagesRead: 0,
+  psetsDone: 0,
+  fishingRod: true,
+  pickaxe: false,
 };
 
 // export let coffeeBoostActive = false;

@@ -5,6 +5,7 @@ import {
   studyroomSceneColliders,
   stacksSceneColliders,
   stacksForegroundObjects,
+  voidSceneColliders,
 } from "./colliders.js";
 import { genericBoundaryControl, rectsOverlap } from "./utils.js";
 import { TRANSITION_TIME } from "./constants.js";
@@ -26,8 +27,17 @@ export let scenes = [
       [0, 280, 130, 60, 2], //goes to "studyroom"
     ],
     onEnter: function () {
-      player.x = 330;
-      player.y = 450;
+      if (comeFrom === 1) {
+        player.x = 400;
+        player.y = 400;
+      }
+      if (comeFrom === 2) {
+        player.x = 50;
+        player.y = 480;
+      } else {
+        player.x = 330;
+        player.y = 450;
+      }
     },
   },
   {
@@ -39,6 +49,7 @@ export let scenes = [
       [350, 180, 100, 30, 0], //returns to "start"
     ],
     onEnter: function () {
+      comeFrom = 1;
       player.x = 400;
       player.y = 230;
     },
@@ -54,12 +65,13 @@ export let scenes = [
     ],
     onEnter: function () {
       if (comeFrom === 3) {
-        player.x = 750;
-        player.y = 490;
+        player.x = 700;
+        player.y = 460;
       } else {
         player.x = 50;
         player.y = 480;
       }
+      comeFrom = 2;
     },
   },
   {
@@ -68,15 +80,58 @@ export let scenes = [
     borderFunc: genericBoundaryControl,
     colliders: stacksSceneColliders,
     foregroundObjects: stacksForegroundObjects,
-    transitions: [[270, 580, 250, 60, 2]],
+    transitions: [
+      [270, 580, 250, 60, 2],
+      [0, 0, 50, 200, 4],
+    ],
     onEnter: function () {
-      player.x = 400;
-      player.y = 580;
+      if (comeFrom === 4) {
+        player.x = 50;
+        player.y = 150;
+      } else {
+        player.x = 400;
+        player.y = 550;
+      }
       comeFrom = 3;
     },
   },
+  {
+    name: "void",
+    background: null,
+    borderFunc: genericBoundaryControl,
+    colliders: voidSceneColliders,
+    foregroundObjects: [],
+    transitions: [[270, 570, 150, 40, 3]],
+    onEnter: function () {
+      player.x = 400;
+      player.y = 580;
+      comeFrom = 4;
+    },
+  },
 ];
-
+export let backgroundObjects = [
+  {
+    name: "smoking_group",
+    scene: 1,
+    x: 40,
+    y: 210,
+    w: 220,
+    h: 160,
+    frames: [],
+    frameIndex: 0,
+    frameDuration: 2000,
+    lastFrameTime: 0,
+    draw: function () {
+      image(this.frames[this.frameIndex], this.x, this.y, this.w, this.h);
+    },
+    update: function () {
+      if (millis() - this.lastFrameTime > this.frameDuration) {
+        this.frameIndex = (this.frameIndex + 1) % this.frames.length;
+        this.lastFrameTime = millis();
+      }
+    },
+  },
+];
 export function handleSceneTransitions() {
   let transitions = scenes[currentScene].transitions || [];
   let inZone = false;
@@ -124,7 +179,7 @@ export function changeScene(sceneIndex) {
   }
 }
 
-export function drawStackSceneWithLayers() {
+export function drawStackSceneWithLayers(drawPlayerFn) {
   let fgObjs = scenes[currentScene].foregroundObjects || [];
   const playerFootY = player.y + player.size * 1.0; // Try 1.0 for full sprite height
 
@@ -134,6 +189,7 @@ export function drawStackSceneWithLayers() {
       image(obj.sprite, obj.x, obj.y, obj.w, obj.h);
     }
   }
+  drawPlayerFn();
 
   // Debug: Draw player footline
   stroke(0, 255, 0);
@@ -151,7 +207,6 @@ export function drawStackSceneWithLayers() {
     }
   }
 }
-
 export function isPlayerBehindShelf(obj) {
   // Allow for some fudge factor (10px)
   return player.x + player.size > obj.x + 10 && player.x < obj.x + obj.w - 10;

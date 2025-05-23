@@ -1,24 +1,26 @@
 export let startSceneColliders = [
   // Reception Desk (top middle)
-  [250, 0, 300, 80],
+  [250, 0, 500, 60],
   // Left Arch/Wall
-  [0, 0, 130, 280],
+  [0, 0, 130, 50],
   // Right Wall by bookshelf/door
-  [710, 0, 90, 265],
-  // Top left bookshelf
-  [140, 0, 65, 130],
+  [710, 0, 90, 50],
+  // Top left back wall
+  [140, 0, 65, 50],
   // Right bookshelf
-  [660, 110, 120, 100],
+  [690, 170, 120, 80],
 
+  // Left middle entrance
+  [0, 250, 130, 80],
   // Tables (center)
-  [180, 170, 140, 40], // top left table
-  [500, 170, 140, 40], // top right table
+  [180, 160, 140, 40], // top left table
+  [500, 170, 120, 40], // top right table
   [180, 270, 140, 40], // bottom left table
-  [500, 270, 140, 40], // bottom right table
+  [500, 270, 120, 40], // bottom right table
 
   // Reception plants/bookshelves
-  [200, 0, 35, 80], // left plant/bookshelf by desk
-  [565, 0, 35, 80], // right plant/bookshelf by desk
+  [200, 0, 35, 50], // left plant/bookshelf by desk
+  [565, 0, 35, 60], // right plant/bookshelf by desk
 
   // Bottom left table (partially offscreen)
   [0, 460, 130, 50],
@@ -28,7 +30,7 @@ export let startSceneColliders = [
   [500, 530, 250, 90], //right
 
   // Door frame (right bottom)
-  [680, 370, 160, 120],
+  [690, 345, 160, 60],
 ];
 export let outsideSceneColliders = [
   // Top wall/building above doors (full width)
@@ -66,15 +68,15 @@ export let studyroomSceneColliders = [
   [560, 110, 50, 110], // Right table
 
   // --- Middle row tables ---
-  [290, 280, 50, 110], // Left
+  [310, 280, 50, 110], // Left
   [420, 280, 50, 110], // Center
   [560, 280, 50, 110], // Right
 
   // --- Bottom right and center tables ---
-  [210, 450, 130, 60], // Bottom left table (with laptop & book)
+  [180, 450, 140, 60], // Bottom left table (with laptop & book)
   [520, 450, 150, 60], // Bottom right table
   // --- Center left table ---
-  [0, 310, 100, 60],
+  [0, 310, 110, 60],
   // --- Center left top chair (next to table)---
   [0, 250, 80, 60],
   // --- Top chair backstop ---
@@ -141,4 +143,8 @@ export let stacksSceneColliders = [
   // --- front ledge ---
   [0, 430, 250, 80],
   [530, 430, 250, 80],
+];
+export let voidSceneColliders = [
+  [530, 150, 250, 150], //fishing pond
+  [0, 0, 800, 150], //back wall
 ];

@@ -75,3 +75,47 @@ export function drawStatsGUI() {
   // Draw "knowledge" (brown book area, near the middle)
   text(player.knowledge, guiX + guiW / 2, guiY + 110);
 }
+
+export function canMoveTo(newX, newY) {
+  let colliders = scenes[currentScene].colliders || [];
+  for (let c of colliders) {
+    if (
+      rectsOverlap(newX, newY, player.size, player.size, c[0], c[1], c[2], c[3])
+    ) {
+      return false;
+    }
+  }
+  // Also prevent going out of bounds
+  if (newX < 0 || newX > 800 - player.size) return false;
+  if (newY < 0 || newY > 600 - player.size) return false;
+  return true;
+}
+
+export function processMovement(moveKeyActive, heldDirection) {
+  if (!moveKeyActive || !heldDirection) return;
+
+  let now = millis();
+  if (now - player.lastMoveTime < player.moveDelay) return;
+
+  // Determine intended move
+  let dx = 0,
+    dy = 0;
+  if (heldDirection === "up") dy = -player.stepSize;
+  if (heldDirection === "down") dy = player.stepSize;
+  if (heldDirection === "left") dx = -player.stepSize;
+  if (heldDirection === "right") dx = player.stepSize;
+
+  // Predict new location
+  let newX = player.x + dx;
+  let newY = player.y + dy;
+
+  // Check collision BEFORE moving
+  if (canMoveTo(newX, newY)) {
+    player.x = newX;
+    player.y = newY;
+    player.direction = heldDirection;
+    player.step = 1 - player.step;
+    player.moving = true;
+    player.lastMoveTime = now;
+  }
+}
